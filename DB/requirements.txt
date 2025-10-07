@@ -1,0 +1,1 @@
+mysql-conector-python==0.1.8
