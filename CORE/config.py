@@ -1,0 +1,1 @@
+#NOTE -Variáveis de ambiente (.env)
