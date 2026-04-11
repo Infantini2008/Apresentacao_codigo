@@ -1,1 +1,0 @@
-# Variáveis secretas (nunca sobe pro git!)
