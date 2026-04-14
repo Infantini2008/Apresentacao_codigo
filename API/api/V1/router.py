@@ -1,1 +1,0 @@
- #NOTE -  Agrupa todas as rotas da v1

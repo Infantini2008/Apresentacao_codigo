@@ -1,1 +1,0 @@
-#NOTE -  JWT, hash de senha, etc.

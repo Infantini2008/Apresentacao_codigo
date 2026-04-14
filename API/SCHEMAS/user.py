@@ -1,1 +1,0 @@
-#NOTE -  Schemas Pydantic (validação/serialização)

@@ -1,1 +1,0 @@
-#NOTE -  Modelos do SQLAlchemy (tabelas)
