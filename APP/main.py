@@ -15,7 +15,7 @@ async def lifespan(app: FastAPI):
     yield # --> segurança de festa, deixa que eu(Infantini) explico
 
 app = FastAPI(
-    title="API de Monitoramento de Consumo Sustentável",
+    title="API de Monitoramento",
     version="1.0.0",
     lifespan=lifespan
 )

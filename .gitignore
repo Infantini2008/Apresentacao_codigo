@@ -1,0 +1,23 @@
+# ambiente virtual
+.venv/
+venv/
+env/
+
+# variáveis secretas
+.env
+
+# cache do Python
+__pycache__/
+*.pyc
+*.pyo
+
+# banco local de testes
+*.db
+*.sqlite3
+
+# VS Code
+.vscode/
+
+# sistema operacional
+.DS_Store
+Thumbs.db
