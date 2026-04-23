@@ -7,10 +7,10 @@ HTTPException devolve um erro organizado pro app quando algo dá errado.
 '''
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from database import get_db
-from MODELS.models import Usuario
-from SCHEMAS.user import UsuarioResponse
-from CORE.security import hash_senha, verificar_senha
+from service.database import get_db
+from model.models import Usuario
+from schemas.user import UsuarioResponse
+from config.security import hash_senha, verificar_senha
 
 auth_router = APIRouter(prefix='/auth', tags=['auth'])
 
@@ -20,9 +20,6 @@ def register(nome: str, email: str, senha: str, db: Session = Depends(get_db)):
     if usuario_existente:
         raise HTTPException(status_code=400, detail="Email já cadastrado")
     
-    '''
-    a hash vai basicamente dar o tempero para que sua senha seja unica
-    '''
     criptografada = hash_senha(senha)
     
     novo_usuario = Usuario(nome=nome, email=email, senha=criptografada)
@@ -38,10 +35,35 @@ def login(email: str, senha: str, db: Session = Depends(get_db)):
     if not usuario:
         raise HTTPException(status_code=404, detail="Usuário não encontrado")
     
-    '''
-    vê se tem o tempero 
-    '''
     if not verificar_senha(senha, usuario.senha):
         raise HTTPException(status_code=401, detail="Senha incorreta")
     
     return {"message": "Login realizado com sucesso!"}
+
+@auth_router.put('/alterar-senha')
+def alterar_senha(
+    email: str,
+    senha_atual: str,
+    nova_senha: str,
+    db: Session = Depends(get_db)
+):
+    # busca o usuario pelo email
+    usuario = db.query(Usuario).filter(Usuario.email == email).first()
+    if not usuario:
+        raise HTTPException(status_code=404, detail="Usuário não encontrado")
+
+    # verifica se a senha atual está correta
+    if not verificar_senha(senha_atual, usuario.senha):
+        raise HTTPException(status_code=401, detail="Senha atual incorreta")
+
+    # criptografa a nova senha e salva
+    usuario.senha = hash_senha(nova_senha)
+    db.commit()
+
+    return {"message": "Senha alterada com sucesso!"}
+
+@auth_router.post('/logout')
+def logout():
+    # o front é responsável por apagar o token
+    # essa rota só confirma que o logout foi solicitado
+    return {"message": "Logout realizado com sucesso!"}

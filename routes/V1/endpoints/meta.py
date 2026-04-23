@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from database import get_db
-from SCHEMAS.meta import MetaCriar, MetaResponse
-from MODELS.models import Meta, Consumo
+from service.database import get_db
+from schemas.meta import MetaCriar, MetaResponse
+from model.models import Meta, Consumo
 
 meta_router = APIRouter(prefix="/metas", tags=["Metas"])
 

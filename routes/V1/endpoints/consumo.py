@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from database import get_db
-from MODELS.models import Consumo
-#para o consumo saber o formato dos dados que vão entrar e sair da rota. O Infantini sabe falar
-from SCHEMAS.consume import ConsumoCriar, ConsumoResponse
+from service.database import get_db
+from model.models import Consumo
+#para o consumo saber o formato dos dados que vão entrar e sair da rota.
+from schemas.consume import ConsumoCriar, ConsumoResponse
 
 consumo_router = APIRouter(prefix="/consumos", tags=["Consumos"])
 

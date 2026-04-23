@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from database import get_db
-from MODELS.models import Dicas
-from SCHEMAS.dica import DicaCriar, DicaResponse
+from service.database import get_db
+from model.models import Dicas
+from schemas.dica import DicaCriar, DicaResponse
 
 dica_router = APIRouter(prefix="/dicas", tags=["Dicas"])
 

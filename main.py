@@ -1,18 +1,18 @@
-#NOTE - para rodar o código: uvicorn APP.main:app --reload
+#NOTE - para rodar o código: uvicorn main:app --reload
 
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
-from database import create_tables
-from api.V1.endpoints import auth
-from api.V1.endpoints import consumo
-from api.V1.endpoints import meta
-from api.V1.endpoints import dica
-from api.V1.router import usuario_router
+from service.database import create_tables
+from routes.V1.endpoints import auth
+from routes.V1.endpoints import consumo
+from routes.V1.endpoints import meta
+from routes.V1.endpoints import dica
+from routes.V1.router import usuario_router
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     create_tables()
-    yield # --> segurança de festa, deixa que eu(Infantini) explico
+    yield
 
 app = FastAPI(
     title="API de Monitoramento",

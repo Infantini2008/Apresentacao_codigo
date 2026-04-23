@@ -5,7 +5,7 @@ from sqlalchemy import Column, Integer, String, Text, DateTime, Numeric, Foreign
 from sqlalchemy.sql import func
 
 #cria a base do banco
-from MODELS.base import Base
+from service.base import Base
 
 #criar classes e tabelas do banco
 class Usuario(Base):
