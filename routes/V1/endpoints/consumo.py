@@ -37,3 +37,20 @@ def deletar_consumo(id: int, db: Session = Depends(get_db)):
     db.delete(consumo)
     db.commit()
     return {"message": "Consumo deletado com sucesso"}
+
+@consumo_router.put("/{id}", response_model=ConsumoResponse)
+def editar_consumo(id: int, consumo: ConsumoCriar, db: Session = Depends(get_db)):
+    # busca o consumo pelo id
+    consumo_existente = db.query(Consumo).filter(Consumo.id == id).first()
+    if not consumo_existente:
+        raise HTTPException(status_code=404, detail="Consumo não encontrado")
+
+    # atualiza os campos com os novos valores
+    consumo_existente.tipo_consumo = consumo.tipo_consumo
+    consumo_existente.valor = consumo.valor
+    consumo_existente.unidade_medida = consumo.unidade_medida
+    consumo_existente.is_simulado = consumo.is_simulado
+
+    db.commit()
+    db.refresh(consumo_existente)
+    return consumo_existente

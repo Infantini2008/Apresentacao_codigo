@@ -1,3 +1,10 @@
+'''
+ARQUIVO: database.py
+FUNÇÃO: Conexão com o banco de dados Supabase via SQLAlchemy.
+        get_db() injeta a sessão do banco nos endpoints automaticamente.
+        create_tables() cria as tabelas no banco ao iniciar a API.
+'''
+
 import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, Session

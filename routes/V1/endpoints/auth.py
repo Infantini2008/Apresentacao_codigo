@@ -5,12 +5,24 @@ raise --> fazer um erro de proposito e parar a função na hora
 if not é 'se nao for'
 HTTPException devolve um erro organizado pro app quando algo dá errado.
 '''
+
+'''
+ARQUIVO: auth.py
+FUNÇÃO: Rotas de autenticação.
+        /register → cadastra novo usuário com senha criptografada
+        /login    → valida credenciais e confirma acesso
+        /logout   → front apaga o token, back confirma
+        /alterar-senha → verifica senha atual e atualiza para nova
+'''
+
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from service.database import get_db
 from model.models import Usuario
 from schemas.user import UsuarioResponse
 from config.security import hash_senha, verificar_senha
+from config.email import enviar_email
+import asyncio
 
 auth_router = APIRouter(prefix='/auth', tags=['auth'])
 
@@ -47,18 +59,22 @@ def alterar_senha(
     nova_senha: str,
     db: Session = Depends(get_db)
 ):
-    # busca o usuario pelo email
     usuario = db.query(Usuario).filter(Usuario.email == email).first()
     if not usuario:
         raise HTTPException(status_code=404, detail="Usuário não encontrado")
 
-    # verifica se a senha atual está correta
     if not verificar_senha(senha_atual, usuario.senha):
         raise HTTPException(status_code=401, detail="Senha atual incorreta")
 
-    # criptografa a nova senha e salva
     usuario.senha = hash_senha(nova_senha)
     db.commit()
+
+    # envia email avisando que a senha foi alterada
+    asyncio.create_task(enviar_email(
+        destinatario=email,
+        assunto="Sua senha foi alterada",
+        corpo=f"<p>Olá {usuario.nome}, sua senha foi alterada com sucesso. Se não foi você, entre em contato.</p>"
+    ))
 
     return {"message": "Senha alterada com sucesso!"}
 

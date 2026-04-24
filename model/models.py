@@ -1,5 +1,12 @@
 #NOTE -  Modelos do Banco (tabelas)
 
+'''
+ARQUIVO: models.py
+FUNÇÃO: Define as tabelas do banco de dados como classes Python.
+        Cada classe = uma tabela. Cada atributo = uma coluna.
+        SQLAlchemy traduz as classes para SQL automaticamente.
+'''
+
 #importações
 from sqlalchemy import Column, Integer, String, Text, DateTime, Numeric, ForeignKey, Boolean
 from sqlalchemy.sql import func
